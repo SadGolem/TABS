@@ -44,8 +44,8 @@ public class EnvironmentGenerator : MonoBehaviour
 
         while (!positionFound)
         {
-            x = Random.Range(-20f, 20f);
-            z = Random.Range(-10f, 10f);
+            x = Random.Range(-50f, 50f);
+            z = Random.Range(-50f, 50f);
 
             randomPos = new Vector3(x, 0, z);
 
