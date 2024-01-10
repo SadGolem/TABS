@@ -6,14 +6,14 @@ public class UnitController : MonoBehaviour
     public EnemyUnit enemyUnit;
     public FriendlyUnit friendlyUnit;
 
-    void Start()
+/*    void Start()
     {
-/*        // Найдем игровые объекты дружеского и вражеского юнитов
+*//*        // Найдем игровые объекты дружеского и вражеского юнитов
         GameObject enemyUnitObject = GameObject.Find("EnemyUnit");
         enemyUnit = enemyUnitObject.GetComponent<EnemyUnit>();
 
         GameObject friendlyUnitObject = GameObject.Find("FriendlyUnit");
-        friendlyUnit = friendlyUnitObject.GetComponent<FriendlyUnit>();*/
+        friendlyUnit = friendlyUnitObject.GetComponent<FriendlyUnit>();*//*
 
         // Получим компоненты NavMeshAgent для управления перемещением по навмешу
 
@@ -28,5 +28,5 @@ public class UnitController : MonoBehaviour
 
         // Направим дружеского юнита к позиции вражеского юнита
         friendlyNavMeshAgent.SetDestination(enemyUnit.transform.position);
-    }
+    }*/
 }
