@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4749390240981481967}
   - component: {fileID: 5657747941169413924}
   - component: {fileID: 6522989149707547054}
+  - component: {fileID: -1498887222749357012}
   m_Layer: 0
   m_Name: magic
   m_TagString: Untagged
@@ -111,3 +112,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  isDoletelo: 0
+  areaDamage: 0
+--- !u!54 &-1498887222749357012
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2686370681878500615}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

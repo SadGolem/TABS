@@ -5,11 +5,13 @@ using UnityEngine;
 public class ArcherUnit : Unit
 {
     [SerializeField] private GameObject projectilePrefab;
+    private bool canShoot = true; // Флаг, который указывает, можно ли производить выстрел
+    public float shootDelay = 2.0f; // Промежуток между выстрелами
     protected ArcherUnit()
     {
-        health = 5;
+        health = 15;
         moveSpeed = 2.5f;
-        damage = 5;
+        damage = 2;
     }
 
     public override void Move(Vector3 newPosition)
@@ -56,24 +58,41 @@ public class ArcherUnit : Unit
 
     protected void ArrowAttack(Transform target)
     {
-        Vector3 attackPosition = target.position; // Сохраняем позицию цели для атаки
-
-        Unit unit = target.GetComponent<Unit>();
-        if (unit != null && unit.team != this.team)
+        if (canShoot)
         {
-            // Создаем и запускаем летящий объект в сторону цели
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            Projectile projectileScript = projectile.GetComponent<Projectile>();
-            if (projectileScript != null)
+            Vector3 attackPosition = target.position; // Сохраняем позицию цели для атаки
+
+            Unit unit = target.GetComponent<Unit>();
+            if (unit != null && unit.team != this.team)
             {
-                projectileScript.Launch(attackPosition);
-                while (!projectileScript.isDoletelo)
-                {           
-                    System.Threading.Thread.Sleep(100); 
-                }
-                this.TakeDamage(unit, damage);
+                // Запускаем выстрел
+                StartCoroutine(ShootProjectile(attackPosition, unit));
+                StartCoroutine(ShootDelay());
             }
         }
     }
 
+    // Корутина для выстрела
+    private IEnumerator ShootProjectile(Vector3 attackPosition, Unit unit)
+    {
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        if (projectileScript != null)
+        {
+            projectileScript.Launch(attackPosition, this, unit, damage);
+            /*this.TakeDamage(unit, damage);*/
+        }
+        yield return null;
+    }
+
+    // Корутина для задержки между выстрелами
+    private IEnumerator ShootDelay()
+    {
+        canShoot = false; // Нельзя стрелять, пока активна задержка
+        yield return new WaitForSeconds(shootDelay);
+        canShoot = true; // Разрешаем следующий выстрел
+    }
 }
+
+
+

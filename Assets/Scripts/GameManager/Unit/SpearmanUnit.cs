@@ -5,10 +5,11 @@ using UnityEngine;
 public class SpearmanUnit : Unit
 {
     // Добавим уникальные параметры для пехоты
+    [SerializeField] private float delayBeforeAttack = 2f;
 
     protected SpearmanUnit()
     {
-        health = 7;
+        health = 20;
         moveSpeed = 4f;
         attackRange = 2;
         damage = 2;
@@ -42,26 +43,36 @@ public class SpearmanUnit : Unit
 
     public override void Move(Vector3 newPosition)
     {
-        // Реализация перемещения пехоты
-        agent.SetDestination(newPosition);
+        if (this.state == State.WalkToPoint)
+        {
+            agent.SetDestination(newPosition);
+            /*            state = State.WalkToPoint;*/
+        }
     }
-
     public override void Attack(Transform target, Transform attackUnit)
     {
+        StartCoroutine(DelayedAttack(target, attackUnit)); // Запускаем корутину для выполнения атаки с задержкой
+    }
+
+    private IEnumerator DelayedAttack(Transform target,Transform attackUnit)
+    {
+        yield return new WaitForSeconds(delayBeforeAttack); // Ждем заданное количество времени
+
         // Логика атаки врага, когда конница достигает нужной дистанции
-        if (Vector3.Distance(attackUnit.transform.position, target.position) <= attackRange)
+        if (Vector3.Distance(attackUnit.position, target.position) <= attackRange)
         {
             Debug.Log(Vector3.Distance(transform.position, target.position));
             Unit targetUnit = target.GetComponent<Unit>();
             state = State.Attack;
             if (targetUnit is MageUnit) // Слабее против Магов
             {
-                targetUnit.TakeDamage(targetUnit, damage / 2); // Наносим двойной урон
+                this.TakeDamage(targetUnit, damage / 2); // Наносим половинный урон
             }
             else
             {
-                targetUnit.TakeDamage(targetUnit, damage); // Стандартный урон
+                this.TakeDamage(targetUnit, damage); // Стандартный урон
             }
         }
     }
+
 }

@@ -31,6 +31,7 @@ public class Unit : MonoBehaviour
     [SerializeField] protected float attackDistance = 3f;
     [SerializeField] protected float moveSpeed = 1f;
     [SerializeField] protected float attackRange = 3f;
+    [HideInInspector] public float maxHP;
 
     [SerializeField] protected float walkSpeed = 3f;
     [SerializeField] protected Transform currentTarget;
@@ -47,9 +48,13 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         agent.speed = moveSpeed;
+        maxHP = health;
     }
 
-   
+    private void Update()
+    {
+        CheckHealth();
+    }
 
     public virtual void Move(Vector3 newPosition)
     {
@@ -62,11 +67,13 @@ public class Unit : MonoBehaviour
 
     public virtual void TakeDamage(Unit target, int damage)
     {
-        target.health -= damage;
         if (target.health <= 0)
         {
+            
             Die(target);
         }
+        else
+            target.health -= damage;
     }
 
     protected virtual void Die(Unit target)
@@ -74,11 +81,17 @@ public class Unit : MonoBehaviour
         if (target != null)
         {
             UnitManager.instance.UnregisterUnit(target);
-            Destroy(target.gameObject);
+            UnitManager.instance.AddEnemyUnits();
+            UnitManager.instance.AddFriendUnits();
+            currentTarget = null;
+            // Сначала удаляем объект, затем вызываем GameEndResult после того как убедились, что target больше не используется
+            DestroyImmediate(target.gameObject, true);
         }
+        // Проверяем, нет ли больше никаких ссылок на target, и только после этого вызываем GameEndResult
+        GameManager.Instance.GameEndResult();
     }
 
-    protected Transform FindBestTarget()
+protected Transform FindBestTarget()
     {
         List<Unit> enemies = UnitManager.instance.GetEnemyUnits();
         Debug.Log(enemies, this);
@@ -110,6 +123,7 @@ public class Unit : MonoBehaviour
         }
         else
         { 
+            currentTarget = null;
             GameManager.Instance.GameEndResult();
             return null;
         }
@@ -122,6 +136,14 @@ public class Unit : MonoBehaviour
 
     public virtual void Attack(Transform target, Transform attackUnit)
     {
+    }
+
+    public void CheckHealth()
+    {
+        if (this.health <= 0)
+        {
+            Die(this);
+        }
     }
 }
 

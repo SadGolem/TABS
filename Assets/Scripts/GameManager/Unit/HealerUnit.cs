@@ -6,9 +6,10 @@ using UnityEngine;
 public class HealerUnit : Unit
 {
     public int heal;
+    [SerializeField] private float delayBeforeHeal = 2f;
     protected HealerUnit()
     {
-        health = 5;
+        health = 20;
         moveSpeed = 2.0f;
         attackRange = 2.0f;
         // У лекарей нет навыков атаки, поэтому урон не устанавливаем
@@ -38,41 +39,42 @@ public class HealerUnit : Unit
     // Логика выбора цели для лечения
     protected Transform FindBestHealTarget()
     {
-        List<Unit> enemies = UnitManager.instance.GetEnemyUnits();
-        Debug.Log(enemies, this);
-        List<Unit> friends = UnitManager.instance.GetFriendUnits();
-        Debug.Log(friends, this);
-        if (enemies.Count != 0 && friends.Count != 0)
-        {
-            List<Unit> unitsToSearch = team is Team.Friend ? enemies.Cast<Unit>().ToList() : friends.Cast<Unit>().ToList();
-            Debug.Log(unitsToSearch);
-            float health = Mathf.Infinity;
-            Transform bestTarget = null;
+        List<Unit> enemies = UnitManager.instance.GetEnemyUnits(); // Получаем враждебных юнитов
+        List<Unit> friends = UnitManager.instance.GetFriendUnits(); // Получаем дружественных юнитов
 
-            foreach (Unit unit in unitsToSearch)
+        List<Unit> unitsToSearch = team is Team.Friend ? friends : enemies; // Определение группы для поиска
+
+        float minHealth = Mathf.Infinity; // Начальное значение для поиска минимального здоровья
+        Transform bestTarget = null; // Цель с наименьшим здоровьем
+        foreach (Unit unit in unitsToSearch) // Проходим по всем юнитам
+        {
+            if (unit != null && unit != this) // Проверяем, что юнит существует и не является текущим юнитом
             {
-                if (unit != null && unit != this)
+                if (unit.health < minHealth) // Если здоровье юнита меньше текущего минимального здоровья
                 {
-                    float healthMin = unit.health;
-                    if (healthMin < health)
-                    {
-                        health = healthMin;
-                        bestTarget = unit.transform;
-                    }
+                    minHealth = unit.health; // Обновляем минимальное здоровье
+                    bestTarget = unit.transform; // Устанавливаем юнита как лучшую цель
                 }
             }
-            Debug.Log(bestTarget);
-            currentTarget = bestTarget;
-            return bestTarget;
         }
-        else { return null; }
+        return bestTarget; // Возвращаем лучшую цель
     }
 
     // Метод для осуществления лечения вблизи
     protected void Heal(Transform target)
     {
+        StartCoroutine(HealWithDelay(target));
+    }
+
+    private IEnumerator HealWithDelay(Transform target)
+    {
+        yield return new WaitForSeconds(delayBeforeHeal); // Ждем заданное количество времени
+
         Unit fr = target.GetComponent<Unit>();
-        fr.health += heal;
+        if (fr.health < fr.maxHP)
+        {
+            fr.health += heal;
+        }
     }
 
     // Если нужно, можно также переопределить другие методы родительского класса Unit для специфических действий лекаря

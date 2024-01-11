@@ -1,13 +1,15 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class InfantryUnit : Unit
 {
+    [SerializeField] private float delayBeforeAttack = 2f;
     // Добавим уникальные параметры для пехоты
 
     protected InfantryUnit()
     {
-        health = 20;
+        health = 30;
         moveSpeed = 4f;
         attackRange = 1;
         damage = 2;
@@ -30,6 +32,7 @@ public class InfantryUnit : Unit
             {
                 state = State.Attack;
                 Attack(currentTarget, this.transform);
+                currentTarget = null;
             }
             else
             {
@@ -39,28 +42,27 @@ public class InfantryUnit : Unit
         }
     }
 
-    public override void Move(Vector3 newPosition)
-    {
-        // Реализация перемещения пехоты
-        agent.SetDestination(newPosition);
-    }
 
     public override void Attack(Transform target, Transform attackUnit)
     {
-        // Логика атаки врага, когда конница достигает нужной дистанции
-        if (Vector3.Distance(attackUnit.transform.position, target.position) <= attackRange)
+        StartCoroutine(PerformDelayedAttack(target)); // Запускаем корутину для выполнения атаки с задержкой
+    }
+
+    private IEnumerator PerformDelayedAttack(Transform target)
+    {
+        yield return new WaitForSeconds(delayBeforeAttack); // Ждем заданное количество времени
+
+        Unit unit = target.GetComponent<Unit>();
+        state = State.Attack;
+        this.TakeDamage(unit, damage); // Наносим урон цели
+    }
+
+    public override void Move(Vector3 newPosition)
+    {
+        if (this.state == State.WalkToPoint)
         {
-            Debug.Log(Vector3.Distance(transform.position, target.position));
-            Unit targetUnit = target.GetComponent<Unit>();
-            state = State.Attack;
-            if (targetUnit is MageUnit) // Слабее против Магов
-            {
-                targetUnit.TakeDamage(targetUnit, damage /2); // Наносим двойной урон
-            }
-            else
-            {
-                targetUnit.TakeDamage(targetUnit, damage); // Стандартный урон
-            }
+            agent.SetDestination(newPosition);
+            /*            state = State.WalkToPoint;*/
         }
     }
 }

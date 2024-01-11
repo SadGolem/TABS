@@ -25,7 +25,7 @@ public class UnitManager : MonoBehaviour
     {
         foreach (Unit unit in allUnits)
         {
-            if (unit.team == Team.Enemy)
+            if (unit.team == Team.Enemy && !enemyUnits.Contains(unit))
             {
                 enemyUnits.Add(unit);
             }
@@ -48,7 +48,7 @@ public class UnitManager : MonoBehaviour
     {
         foreach (Unit unit in allUnits)
         {
-            if (unit.team == Team.Friend)
+            if (unit.team == Team.Friend && !friendUnits.Contains(unit))
             {
                 friendUnits.Add(unit);
             }
@@ -56,10 +56,31 @@ public class UnitManager : MonoBehaviour
 
         return friendUnits;
     }
+    public List<Unit> AddFriendUnits2(Unit unit)
+    {
+        if (unit.team == Team.Friend)
+        {
+            friendUnits.Add(unit);
+        }
+
+        return friendUnits;
+    }
+
+    public List<Unit> AddEnemyUnits2(Unit unit)
+    {
+        if (unit.team == Team.Enemy)
+        {
+            enemyUnits.Add(unit);
+        }
+
+        return enemyUnits;
+    }
 
     public void RegisterUnit(Unit unit)
     {
         allUnits.Add(unit);
+        AddFriendUnits2(unit);
+        AddEnemyUnits2(unit);
     }
 
     public void UnregisterUnit(Unit unit)
@@ -67,6 +88,24 @@ public class UnitManager : MonoBehaviour
         if (allUnits.Contains(unit))
         {
             allUnits.Remove(unit);
+            UnregisterUnitFriend(unit);
+            UnregisterUnitEnemy(unit);
+        }
+    }
+
+    public void UnregisterUnitEnemy(Unit unit)
+    {
+        if (enemyUnits.Contains(unit))
+        {
+            enemyUnits.Remove(unit);
+        }
+    }
+
+    public void UnregisterUnitFriend(Unit unit)
+    {
+        if (friendUnits.Contains(unit))
+        {
+            friendUnits.Remove(unit);
         }
     }
 

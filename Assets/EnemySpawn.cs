@@ -29,7 +29,9 @@ public class EnemySpawn : MonoBehaviour
             } while (!NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)); // Проверка, что точка доступна для спавна
 
             // Создаем экземпляр вражеского юнита на найденной точке на навмеше
-            Instantiate(randomEnemyUnitPrefab, hit.position, Quaternion.identity);
+            var prefab = Instantiate(randomEnemyUnitPrefab, hit.position, Quaternion.identity);
+            UnitManager.instance.RegisterUnit(prefab.GetComponent<Unit>());
+            Debug.Log("юнит врагов добавлен");
         }
         else
         {

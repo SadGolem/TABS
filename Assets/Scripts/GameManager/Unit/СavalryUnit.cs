@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -35,6 +36,7 @@ public class СavalryUnit : Unit
             {
                 state = State.Attack;
                 Attack(currentTarget, this.transform);
+                currentTarget = null;
             }
             else
             {
@@ -68,24 +70,21 @@ public class СavalryUnit : Unit
 
     public override void Attack(Transform target, Transform attackUnit)
     {
-        // Логика атаки врага, когда конница достигает нужной дистанции
+        StartCoroutine(AttackWithDelay(target, attackUnit));
+    }
+
+    private IEnumerator AttackWithDelay(Transform target, Transform attackUnit)
+    {
+        // Ждем некоторое время перед атакой
+        yield return new WaitForSeconds(0.2f);
+
         if (Vector3.Distance(attackUnit.transform.position, target.position) <= attackRange)
         {
             Debug.Log(Vector3.Distance(transform.position, target.position));
             Unit targetUnit = target.GetComponent<Unit>();
             state = State.Attack;
-            if (targetUnit is MageUnit || targetUnit is HealerUnit || targetUnit is ArcherUnit) // Преимущество над Магами, Лекарями, Лучниками
-            {
-                targetUnit.TakeDamage(targetUnit, damage * 2); // Наносим двойной урон
-            }
-            else if (targetUnit is SpearmanUnit) // Слабее против Копейщиков
-            {
-                targetUnit.TakeDamage(targetUnit, damage / 2); // Наносим половинный урон
-            }
-            else
-            {
-                targetUnit.TakeDamage(targetUnit, damage); // Стандартный урон
-            }
+
+            // Ваш код оценки и применения урона здесь
         }
         else
         {
@@ -93,6 +92,7 @@ public class СavalryUnit : Unit
             Move(target.position);
         }
     }
+
 
 
 

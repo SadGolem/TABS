@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,9 +7,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textMeshProUGUI;
     [SerializeField] private GameObject window;
+    [SerializeField] private GameObject blockWindow;
     [SerializeField] private EnemySpawn spawner;
+    [SerializeField] private Button[] buttons;
     private bool isPlayerTurn = true; // Переменная для определения, чей сейчас ход
     private int hod = 0;
+    public bool isNotLastTurn = true;
 
     public static GameManager Instance;
     private void Awake()
@@ -18,12 +22,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         RandomTurn();
+        Time.timeScale = 1.0f;
     }
     public void GameEndResult()
     {
-        if (hod >= 6)
+        if (hod >= 7)
         {
             UnitManager unitManager = UnitManager.instance;
+            Debug.Log("friends:" + unitManager.GetFriendUnits().Count);
+            Debug.Log("enemies:" + unitManager.GetEnemyUnits().Count);
             if (unitManager.GetFriendUnits().Count == 0)
             {
 
@@ -39,6 +46,14 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    private void Update()
+    {
+        if (hod >= 7)
+        {
+            isNotLastTurn = false;
+            GameEndResult(); }
+    }
+
     public void Reset()
     {
         SceneManager.LoadScene(0);
@@ -53,24 +68,30 @@ public class GameManager : MonoBehaviour
             if (!isPlayerTurn)
             {
                 // Ход бота
+                OffUI();
                 BotTurn();
-                hod++;
+               
             }
             else
             {
-                hod++;
-                // Ход игрока
+                OnUI();
+                // Ход игрока 
             }
+            
         }
+        else
+            OffUI();
     }
 
     // Метод для реализации хода бота
     private void BotTurn()
     {
-
-        spawner.SpawnEnemyUnit();
-
-        EndTurn(); // Это может вызвать ход игрока
+        if (hod != 7)
+        {
+            spawner.SpawnEnemyUnit();
+            hod++;
+            EndTurn(); // Это может вызвать ход игрока
+        }
     }
 
     private void RandomTurn()
@@ -82,6 +103,25 @@ public class GameManager : MonoBehaviour
         else
         {
             BotTurn();
+        }
+    }
+
+    private void OffUI()
+    {
+        blockWindow.SetActive(true);
+        foreach (Button btn in buttons)
+        {
+            btn.interactable = false;
+        }
+    }
+
+    private void OnUI()
+    {
+        blockWindow.SetActive(false);
+        foreach (Button btn in buttons)
+        {
+            btn.interactable = true;
+            
         }
     }
 }
