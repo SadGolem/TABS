@@ -2,55 +2,90 @@ using UnityEngine;
 
 public class MageUnit : Unit
 {
-    // Добавим уникальные параметры для мага
-    [SerializeField] float attackRadius = 5f;
+    // Дополнительные характеристики для магического юнита
+    [Header("Mage Specific")]
+    [SerializeField] protected int areaDamage = 5; // Урон по области
+    [SerializeField] private GameObject projectilePrefab;
 
-    public MageUnit()
+    protected MageUnit()
     {
+        health = 5;
+        moveSpeed = 1;
+        attackRange = 40;
+        damage = 1;
     }
 
-    public override void Move(Vector3 newPosition)
+    void Update()
     {
-        // Реализация перемещения мага с учётом избегания союзников и атаки по дуге
-        Vector3 direction = (newPosition - transform.position).normalized;
-        agent.Move(direction * walkSpeed * Time.deltaTime);
-    }
+        // Логика выбора врага и просчета лучшей атаки будет здесь
+        if (currentTarget == null)
+        {
+            currentTarget = FindBestTarget();
+            Debug.Log(currentTarget);
+        }
 
-/*    public override void TakeDamage(Unit target, float damage)
-    {
-        // Логика атаки мага с учетом преимуществ и недостатков
-        if (target is InfantryUnit || target is SpearmanUnit) // Преимущество над Пехотой, Копейщиками
+        if (currentTarget != null)
         {
-            target.TakeDamage(damage * 2); // Наносим двойной урон
-        }
-        else if (target is ArcherUnit || target is СavalryUnit) // Слабее против Лучников, Конницы
-        {
-            target.TakeDamage(damage / 2); // Наносим половинный урон
-        }
-        else
-        {
-            target.TakeDamage(damage); // Стандартный урон
-        }
-    }*/
-
-/*    void AreaDamage()
-    {
-        // Логика атаки мага по области (дуговая атака)
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRadius);
-        foreach (var hitCollider in hitColliders)
-        {
-            Unit unit = hitCollider.GetComponent<Unit>();
-            if (unit != null && unit != this && IsEnemy(unit)) // Проверяем, является ли это вражеским юнитом
+            // Нападаем на врага, если он в пределах атаки
+            float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
+            if (distanceToTarget <= attackRange)
             {
-                unit.TakeDamage(this);
+                state = State.Attack;
+                Attack(currentTarget, this.transform);
+            }
+            else
+            {
+                state = State.WalkToPoint;
+                Move(currentTarget.position);
             }
         }
-    }*/
-
-    bool IsEnemy(Unit otherUnit)
-    {
-        // Логика определения, является ли другой юнит врагом
-        return true;
     }
+
+    // Override метода атаки для магического юнита
+    public override void Attack(Transform target, Transform attackUnit)
+    {
+        state = State.Attack;
+        AreaAttack(target);
+    }
+
+    // Логика для атаки по области
+    protected void AreaAttack(Transform target)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange);
+
+        Vector3 attackPosition = target.position; // Сохраняем позицию цели для атаки
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.tag != "Terrain")
+            {
+                Unit unit = hitCollider.GetComponent<Unit>();
+                if (unit != null && unit.team != this.team)
+                {   
+                    // Создаем и запускаем летящий объект в сторону цели
+                    GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                    Projectile projectileScript = projectile.GetComponent<Projectile>();
+                    if (projectileScript != null)
+                    {
+                        projectileScript.Launch(attackPosition);
+                        this.TakeDamage(unit, areaDamage);
+                    }
+                }
+            }
+        }
+    }
+
+
+    // Логика для движения к цели и обычной атаки
+    protected void MoveTowardsAndAttack(Transform target, Transform attackUnit)
+    {
+        if (this.state == State.WalkToPoint)
+        {
+            agent.speed = moveSpeed; // Устанавливаем скорость перемещения
+            agent.SetDestination(target.transform.position);
+            /*state = State.WalkToPoint;*/
+        }
+    }
+
 }
 

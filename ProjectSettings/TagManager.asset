@@ -7,6 +7,7 @@ TagManager:
   - EnvironmentObject
   - EnemyUnit
   - FriendlyUnit
+  - Terrain
   layers:
   - Default
   - TransparentFX

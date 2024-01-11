@@ -150,8 +150,8 @@ GameObject:
   - component: {fileID: 7515883052458593528}
   - component: {fileID: 7515883052458593529}
   - component: {fileID: 7515883052458593477}
-  - component: {fileID: 7515883052458593475}
-  - component: {fileID: 7515883052458593476}
+  - component: {fileID: 175619331072538434}
+  - component: {fileID: 6610522142923060116}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -288,7 +288,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7515883052458593475
+--- !u!114 &175619331072538434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,13 +297,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7515883052458593531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 858fdd5a6af8e92488c9319fe8578a5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0222692bb2f981b45aeebe41acefc9c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardZoneRectTransform: {fileID: 0}
-  cardPrefab: {fileID: 5889333220592602334, guid: abb3a2658a2f3e84687700efdbdd0216, type: 3}
-  mainCamera: {fileID: 0}
---- !u!114 &7515883052458593476
+  prefabToSpawn: {fileID: 0}
+  spawnParent: {fileID: 0}
+--- !u!114 &6610522142923060116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,55 +311,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7515883052458593531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1525a298354c8544ba430c03440c97b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7515883052458593475}
-          m_TargetAssemblyTypeName: DragAndDropCard, Assembly-CSharp
-          m_MethodName: OnMouseDragging
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7515883052458593475}
-          m_TargetAssemblyTypeName: DragAndDropCard, Assembly-CSharp
-          m_MethodName: OnMouseUpper
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7515883052458593475}
-          m_TargetAssemblyTypeName: DragAndDropCard, Assembly-CSharp
-          m_MethodName: OnMouseDowner
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  _camera: {fileID: 0}

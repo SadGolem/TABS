@@ -47,44 +47,17 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         agent.speed = moveSpeed;
-        if (this is FriendlyUnit)
-        {
-            team = Team.Friend;
-        }
-        else
-        {
-            team = Team.Enemy;
-        }
     }
 
-    void Update()
-    {
-        // Логика выбора врага и просчета лучшей атаки будет здесь
-        if (currentTarget == null)
-        {
-            currentTarget = FindBestTarget();
-            Debug.Log(currentTarget);
-        }
-
-        if (currentTarget != null)
-        {
-            // Нападаем на врага, если он в пределах атаки
-            float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
-            if (distanceToTarget <= attackRange)
-            {
-                Attack(currentTarget, this.transform);
-            }
-            else
-            {
-                Move(currentTarget.position);
-            }
-        }
-    }
+   
 
     public virtual void Move(Vector3 newPosition)
     {
-        agent.SetDestination(newPosition);
-        state = State.WalkToPoint;
+        if (this.state == State.WalkToPoint)
+        {
+            agent.SetDestination(newPosition);
+/*            state = State.WalkToPoint;*/
+        }
     }
 
     public virtual void TakeDamage(Unit target, int damage)
@@ -136,7 +109,10 @@ public class Unit : MonoBehaviour
             return bestTarget;
         }
         else
-        { return null; }
+        { 
+            GameManager.Instance.GameEndResult();
+            return null;
+        }
     }
 
     protected int GiveDamage()

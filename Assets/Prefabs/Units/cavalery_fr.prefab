@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 3889059423725809909}
   - component: {fileID: -4256506758118285305}
   - component: {fileID: 1682598471608521495}
-  - component: {fileID: 7486480180720221421}
+  - component: {fileID: 6086847991907841546}
   m_Layer: 0
-  m_Name: unit
+  m_Name: cavalery_fr
   m_TagString: FriendlyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b67a3b94e119c9240a8b3fd9c4c01d37, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -138,7 +138,7 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7486480180720221421
+--- !u!114 &6086847991907841546
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,9 +147,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 5889333220592602334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0294ab3a6761ab48be5fae1b18ba1b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 963aefc37add1864393b57e319d0c351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 5889333220592602334}
+  agent: {fileID: 1682598471608521495}
+  collider: {fileID: 3889059423725809909}
+  state: 0
+  team: 1
+  followDistance: 3
+  attackDistance: 3
+  moveSpeed: 3
+  attackRange: 1
+  walkSpeed: 3
+  currentTarget: {fileID: 0}
+  OnSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnselect:
+    m_PersistentCalls:
+      m_Calls: []
   health: 10
-  damage: 1
+  damage: 3
+  acceleration: 1

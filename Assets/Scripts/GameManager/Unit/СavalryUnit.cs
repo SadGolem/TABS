@@ -18,6 +18,32 @@ public class СavalryUnit : Unit
         damage = 3;
     }
 
+    void Update()
+    {
+        // Логика выбора врага и просчета лучшей атаки будет здесь
+        if (currentTarget == null)
+        {
+            currentTarget = FindBestTarget();
+            Debug.Log(currentTarget);
+        }
+
+        if (currentTarget != null)
+        {
+            // Нападаем на врага, если он в пределах атаки
+            float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
+            if (distanceToTarget <= attackRange)
+            {
+                state = State.Attack;
+                Attack(currentTarget, this.transform);
+            }
+            else
+            {
+                state = State.WalkToPoint;
+                Move(currentTarget.position);
+            }
+        }
+    }
+
     private void Start()
     {
         unitManager = UnitManager.instance;
@@ -30,19 +56,20 @@ public class СavalryUnit : Unit
 
     public override void Move(Vector3 newPosition)
     {
-        agent.speed = moveSpeed; // Устанавливаем скорость перемещения
-        agent.acceleration = acceleration; // Устанавливаем ускорение
-        agent.SetDestination(newPosition);
-        state = State.WalkToPoint;
+        if (this.state == State.WalkToPoint)
+        {
+            agent.speed = moveSpeed; // Устанавливаем скорость перемещения
+            agent.acceleration = acceleration; // Устанавливаем ускорение
+            agent.SetDestination(newPosition);
+            state = State.WalkToPoint;
+        }
     }
 
 
     public override void Attack(Transform target, Transform attackUnit)
     {
-/*        СavalryUnit a = target.GetComponent<СavalryUnit>();
-        СavalryUnit a = target.GetComponent<СavalryUnit>();*/
         // Логика атаки врага, когда конница достигает нужной дистанции
-        if (/*a.team != attackUnit.team &&*/ Vector3.Distance(attackUnit.transform.position, target.position) <= attackRange)
+        if (Vector3.Distance(attackUnit.transform.position, target.position) <= attackRange)
         {
             Debug.Log(Vector3.Distance(transform.position, target.position));
             Unit targetUnit = target.GetComponent<Unit>();
@@ -59,6 +86,11 @@ public class СavalryUnit : Unit
             {
                 targetUnit.TakeDamage(targetUnit, damage); // Стандартный урон
             }
+        }
+        else
+        {
+            state = State.WalkToPoint;
+            Move(target.position);
         }
     }
 
