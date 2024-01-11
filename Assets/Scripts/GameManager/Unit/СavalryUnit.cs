@@ -37,10 +37,12 @@ public class СavalryUnit : Unit
     }
 
 
-    public override void Attack(Transform target)
+    public override void Attack(Transform target, Transform attackUnit)
     {
+/*        СavalryUnit a = target.GetComponent<СavalryUnit>();
+        СavalryUnit a = target.GetComponent<СavalryUnit>();*/
         // Логика атаки врага, когда конница достигает нужной дистанции
-        if (Vector3.Distance(this.transform.position, target.position) <= attackRange)
+        if (/*a.team != attackUnit.team &&*/ Vector3.Distance(attackUnit.transform.position, target.position) <= attackRange)
         {
             Debug.Log(Vector3.Distance(transform.position, target.position));
             Unit targetUnit = target.GetComponent<Unit>();
@@ -58,11 +60,6 @@ public class СavalryUnit : Unit
                 targetUnit.TakeDamage(targetUnit, damage); // Стандартный урон
             }
         }
-/*        else
-        {
-            // Продолжить движение к цели
-            Move(target.position);
-        }*/
     }
 
 

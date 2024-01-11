@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
     [SerializeField] protected new Collider collider;
     Vector3 targetPoint;
     [SerializeField] protected State state;
-    [SerializeField] protected State Team;
+    [SerializeField] public Team team;
 
     [SerializeField] protected float followDistance = 3f;
     [SerializeField] protected float attackDistance = 3f;
@@ -47,6 +47,14 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         agent.speed = moveSpeed;
+        if (this is FriendlyUnit)
+        {
+            team = Team.Friend;
+        }
+        else
+        {
+            team = Team.Enemy;
+        }
     }
 
     void Update()
@@ -64,7 +72,7 @@ public class Unit : MonoBehaviour
             float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
             if (distanceToTarget <= attackRange)
             {
-                Attack(currentTarget);
+                Attack(currentTarget, this.transform);
             }
             else
             {
@@ -99,28 +107,36 @@ public class Unit : MonoBehaviour
 
     protected Transform FindBestTarget()
     {
-        List<EnemyUnit> enemies = UnitManager.instance.GetEnemyUnits();
+        List<Unit> enemies = UnitManager.instance.GetEnemyUnits();
         Debug.Log(enemies, this);
-        List<FriendlyUnit> friends = UnitManager.instance.GetFriendUnits();
+        List<Unit> friends = UnitManager.instance.GetFriendUnits();
         Debug.Log(friends, this);
-        List<Unit> unitsToSearch = this is FriendlyUnit ? enemies.Cast<Unit>().ToList() : friends.Cast<Unit>().ToList();
-        Debug.Log(unitsToSearch);
-        float closestDistance = Mathf.Infinity;
-        Debug.Log(closestDistance);
-        Transform bestTarget = null;
-
-        foreach (Unit unit in unitsToSearch)
+        if (enemies.Count != 0 && friends.Count != 0)
         {
-            float distanceToUnit = Vector3.Distance(transform.position, unit.transform.position);
-            if (distanceToUnit < closestDistance)
+            List<Unit> unitsToSearch = team is Team.Friend ? enemies.Cast<Unit>().ToList() : friends.Cast<Unit>().ToList();
+            Debug.Log(unitsToSearch);
+            float closestDistance = Mathf.Infinity;
+            Debug.Log(closestDistance);
+            Transform bestTarget = null;
+
+            foreach (Unit unit in unitsToSearch)
             {
-                closestDistance = distanceToUnit;
-                bestTarget = unit.transform;
+                if (unit != null && unit != this)
+                {
+                    float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
+                    if (distanceToUnit < closestDistance)
+                    {
+                        closestDistance = distanceToUnit;
+                        bestTarget = unit.transform;
+                    }
+                }
             }
+            Debug.Log(bestTarget);
+            currentTarget = bestTarget;
+            return bestTarget;
         }
-        Debug.Log(bestTarget);
-        currentTarget = bestTarget;
-        return bestTarget;
+        else
+        { return null; }
     }
 
     protected int GiveDamage()
@@ -128,7 +144,7 @@ public class Unit : MonoBehaviour
         return damage;
     }
 
-    public virtual void Attack(Transform target)
+    public virtual void Attack(Transform target, Transform attackUnit)
     {
     }
 }

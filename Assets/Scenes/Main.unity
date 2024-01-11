@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 261898244}
-  - component: {fileID: 261898243}
   - component: {fileID: 261898245}
   m_Layer: 0
   m_Name: GameController
@@ -141,20 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &261898243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261898242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c97bb65b2030444ba3d4a4bdcd0133, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyUnit: {fileID: 271133652}
-  friendlyUnit: {fileID: 7486480181744411044}
 --- !u!4 &261898244
 Transform:
   m_ObjectHideFlags: 0
@@ -252,35 +237,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5889333220592602334, guid: abb3a2658a2f3e84687700efdbdd0216, type: 3}
   m_PrefabInstance: {fileID: 271133650}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &271133652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 271133651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 821d2d92b9d74e2479dcc0989fafba42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 271133653}
-  collider: {fileID: 271133655}
-  state: 0
-  followDistance: 3
-  attackDistance: 3
-  moveSpeed: 8
-  attackRange: 3
-  walkSpeed: 3
-  currentTarget: {fileID: 0}
-  OnSelect:
-    m_PersistentCalls:
-      m_Calls: []
-  OnUnselect:
-    m_PersistentCalls:
-      m_Calls: []
-  health: 10
-  damage: 1
 --- !u!195 &271133653 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 1682598471608521495, guid: abb3a2658a2f3e84687700efdbdd0216, type: 3}
@@ -306,6 +262,7 @@ MonoBehaviour:
   agent: {fileID: 271133653}
   collider: {fileID: 271133655}
   state: 0
+  team: 0
   followDistance: 3
   attackDistance: 3
   moveSpeed: 3
@@ -1233,7 +1190,6 @@ GameObject:
   - component: {fileID: 3889059422604619196}
   - component: {fileID: 4966865277715971406}
   - component: {fileID: 1682598472565608030}
-  - component: {fileID: 7486480181744411044}
   - component: {fileID: 8752342528117741311}
   m_Layer: 0
   m_Name: friend
@@ -1242,35 +1198,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7486480181744411044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5889333219603534231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0294ab3a6761ab48be5fae1b18ba1b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 1682598472565608030}
-  collider: {fileID: 3889059422604619196}
-  state: 0
-  followDistance: 3
-  attackDistance: 3
-  moveSpeed: 8
-  attackRange: 3
-  walkSpeed: 3
-  currentTarget: {fileID: 0}
-  OnSelect:
-    m_PersistentCalls:
-      m_Calls: []
-  OnUnselect:
-    m_PersistentCalls:
-      m_Calls: []
-  health: 10
-  damage: 1
 --- !u!1001 &7515883053552585383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1456,6 +1383,7 @@ MonoBehaviour:
   agent: {fileID: 1682598472565608030}
   collider: {fileID: 3889059422604619196}
   state: 0
+  team: 1
   followDistance: 3
   attackDistance: 3
   moveSpeed: 3

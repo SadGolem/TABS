@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
-    [SerializeField] List<EnemyUnit> enemyUnits = new List<EnemyUnit>();
-    [SerializeField] List<FriendlyUnit> friendUnits = new List<FriendlyUnit>();
+    [SerializeField] List<Unit> enemyUnits = new List<Unit>();
+    [SerializeField] List<Unit> friendUnits = new List<Unit>();
     [SerializeField] List<Unit> allUnits = new List<Unit>();
 
     public static UnitManager instance;
@@ -15,42 +16,41 @@ public class UnitManager : MonoBehaviour
     }
     void Start()
     {
-        Unit[] unitsArray = FindObjectsOfType<Unit>(); // Находим все юниты в текущей сцене
-        allUnits = new List<Unit>(unitsArray);
+        allUnits = FindObjectsOfType<Unit>().ToList(); // Находим все юниты в текущей сцене
         AddEnemyUnits();
         AddFriendUnits();
     }
 
-    public List<EnemyUnit> AddEnemyUnits()
+    public List<Unit> AddEnemyUnits()
     {
         foreach (Unit unit in allUnits)
         {
-            if (unit is EnemyUnit)
+            if (unit.team == Team.Enemy)
             {
-                enemyUnits.Add((EnemyUnit)unit);
+                enemyUnits.Add(unit);
             }
         }
 
         return enemyUnits;
     }
 
-    public List<EnemyUnit> GetEnemyUnits()
+    public List<Unit> GetEnemyUnits()
     {
         return enemyUnits;
     }
 
-    public List<FriendlyUnit> GetFriendUnits()
+    public List<Unit> GetFriendUnits()
     {
         return friendUnits;
     }
 
-    public List<FriendlyUnit> AddFriendUnits()
+    public List<Unit> AddFriendUnits()
     {
         foreach (Unit unit in allUnits)
         {
-            if (unit is FriendlyUnit)
+            if (unit.team == Team.Friend)
             {
-                friendUnits.Add((FriendlyUnit)unit);
+                friendUnits.Add(unit);
             }
         }
 
