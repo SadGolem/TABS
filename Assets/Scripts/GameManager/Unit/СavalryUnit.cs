@@ -1,15 +1,14 @@
 
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class СavalryUnit : Unit
 {
-    /*[SerializeField] NavMeshAgent navMeshAgent;*/
-    [SerializeField] Vector3 targetPoint;
-    [SerializeField] Unit targetUnit;
-    [SerializeField] float acceleration = 2f;
+    [SerializeField] float acceleration = 1f;
 
-    private Transform currentTarget;
+    private UnitManager unitManager;
 
     protected СavalryUnit()
     {
@@ -19,33 +18,9 @@ public class СavalryUnit : Unit
         damage = 3;
     }
 
-    void Update()
+    private void Start()
     {
-        // Логика выбора врага и просчета лучшей атаки будет здесь
-        if (currentTarget == null)
-        {
-            currentTarget = FindBestTarget();
-        }
-
-        if (currentTarget != null)
-        {
-            // Нападаем на врага, если он в пределах атаки
-            float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
-            if (distanceToTarget <= attackRange)
-            {
-                Attack(currentTarget);
-            }
-        }
-
-        // Простейшее движение конницы для демонстрации
-        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-    }
-
-    Transform FindBestTarget()
-    {
-        // Здесь будет логика выбора лучшего врага (против Магов, Лекарей, Лучников и противостояние Копейщикам)
-        // ...
-        return null; // Заглушка
+        unitManager = UnitManager.instance;
     }
 
     public void Place()
@@ -55,33 +30,41 @@ public class СavalryUnit : Unit
 
     public override void Move(Vector3 newPosition)
     {
-        // Реализация перемещения конницы, учитывающая скорость и ускорение
-        agent.acceleration = acceleration;
+        agent.speed = moveSpeed; // Устанавливаем скорость перемещения
+        agent.acceleration = acceleration; // Устанавливаем ускорение
         agent.SetDestination(newPosition);
         state = State.WalkToPoint;
     }
 
-    public override void TakeDamage(Unit target)
+
+    public override void Attack(Transform target)
     {
-        // Логика атаки юнита с учетом преимуществ и недостатков
-        if (target is MageUnit || target is HealerUnit || target is ArcherUnit) // Преимущество над Магами, Лекарями, Лучниками
+        // Логика атаки врага, когда конница достигает нужной дистанции
+        if (Vector3.Distance(this.transform.position, target.position) <= attackRange)
         {
-            target.TakeDamage(target.damage * 2); // Наносим двойной урон
+            Debug.Log(Vector3.Distance(transform.position, target.position));
+            Unit targetUnit = target.GetComponent<Unit>();
+            state = State.Attack;
+            if (targetUnit is MageUnit || targetUnit is HealerUnit || targetUnit is ArcherUnit) // Преимущество над Магами, Лекарями, Лучниками
+            {
+                targetUnit.TakeDamage(targetUnit, damage * 2); // Наносим двойной урон
+            }
+            else if (targetUnit is SpearmanUnit) // Слабее против Копейщиков
+            {
+                targetUnit.TakeDamage(targetUnit, damage / 2); // Наносим половинный урон
+            }
+            else
+            {
+                targetUnit.TakeDamage(targetUnit, damage); // Стандартный урон
+            }
         }
-        else if (target is SpearmanUnit) // Слабее против Копейщиков
+/*        else
         {
-            target.TakeDamage(damage / 2); // Наносим половинный урон
-        }
-        else
-        {
-            target.TakeDamage(damage); // Стандартный урон
-        }
+            // Продолжить движение к цели
+            Move(target.position);
+        }*/
     }
 
 
-    void Attack(Transform target)
-    {
-        // Логика атаки врага
-        // ...
-    }
+
 }

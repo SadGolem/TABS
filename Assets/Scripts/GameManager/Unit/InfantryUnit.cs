@@ -18,7 +18,7 @@ public class InfantryUnit : Unit
         // Реализация перемещения пехоты
         agent.SetDestination(newPosition);
     }
-
+/*
     public override void TakeDamage(Unit target)
     {
         // Логика атаки пехоты с учетом преимуществ и недостатков
@@ -30,7 +30,7 @@ public class InfantryUnit : Unit
         {
             target.TakeDamage(target.damage); // Стандартный урон
         }
-    }
+    }*/
 
     void Attack()
     {

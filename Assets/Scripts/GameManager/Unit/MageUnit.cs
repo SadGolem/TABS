@@ -16,14 +16,14 @@ public class MageUnit : Unit
         agent.Move(direction * walkSpeed * Time.deltaTime);
     }
 
-    public override void TakeDamage(Unit target, float damage)
+/*    public override void TakeDamage(Unit target, float damage)
     {
         // Логика атаки мага с учетом преимуществ и недостатков
         if (target is InfantryUnit || target is SpearmanUnit) // Преимущество над Пехотой, Копейщиками
         {
             target.TakeDamage(damage * 2); // Наносим двойной урон
         }
-        else if (target is ArcherUnit || target is CavalryUnit) // Слабее против Лучников, Конницы
+        else if (target is ArcherUnit || target is СavalryUnit) // Слабее против Лучников, Конницы
         {
             target.TakeDamage(damage / 2); // Наносим половинный урон
         }
@@ -31,9 +31,9 @@ public class MageUnit : Unit
         {
             target.TakeDamage(damage); // Стандартный урон
         }
-    }
+    }*/
 
-    void AreaDamage()
+/*    void AreaDamage()
     {
         // Логика атаки мага по области (дуговая атака)
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRadius);
@@ -45,7 +45,7 @@ public class MageUnit : Unit
                 unit.TakeDamage(this);
             }
         }
-    }
+    }*/
 
     bool IsEnemy(Unit otherUnit)
     {
