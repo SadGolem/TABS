@@ -70,7 +70,5 @@ public class EditTerrain : MonoBehaviour
     public void BakeNavMesh()
     {
         NavMeshBaker.instance.NavMeshBake();
-
-        EnvironmentGenerator.instance.GenerateEnvironment();
     }
 }

@@ -135,6 +135,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1288663032}
     - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
+      propertyPath: surface
+      value: 
+      objectReference: {fileID: 1940492120}
+    - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
       propertyPath: unitPrefab
       value: 
       objectReference: {fileID: -4151448202115881151, guid: 26663c7600ed71143a27790a062a3bd1, type: 3}
@@ -267,7 +271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &261898244
 Transform:
   m_ObjectHideFlags: 0
@@ -290,7 +294,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261898242}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 724f80af0cc507c42908d68d004da4cf, type: 3}
   m_Name: 
@@ -341,6 +345,8 @@ MonoBehaviour:
   - {fileID: 7351056887144254919, guid: 3202d29f182c144488b08a9f34445da1, type: 3}
   - {fileID: 5169910573277557369, guid: da198aa586da9154c953eb86f528cca1, type: 3}
   - {fileID: 2332006322322318136, guid: f48d48d354d70c14b838dcdb5dc849b7, type: 3}
+  terrain: {fileID: 1940492117}
+  offset: 5
 --- !u!1 &298467979 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7515883052458593531, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
@@ -394,6 +400,10 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 1288663032}
+    - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
+      propertyPath: surface
+      value: 
+      objectReference: {fileID: 1940492120}
     - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
       propertyPath: unitPrefab
       value: 
@@ -546,6 +556,10 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 1288663032}
+    - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
+      propertyPath: surface
+      value: 
+      objectReference: {fileID: 1940492120}
     - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
       propertyPath: unitPrefab
       value: 
@@ -1024,6 +1038,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1288663032}
     - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
+      propertyPath: surface
+      value: 
+      objectReference: {fileID: 1940492120}
+    - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
       propertyPath: unitPrefab
       value: 
       objectReference: {fileID: 3227837076685150898, guid: f89fa9418b9581e439612d241ce225e8, type: 3}
@@ -1241,7 +1259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288663030}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 132.2, y: 115.3, z: 119.8}
+  m_LocalPosition: {x: 132.2, y: 96.1, z: 119.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1558,6 +1576,10 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 1288663032}
+    - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
+      propertyPath: surface
+      value: 
+      objectReference: {fileID: 1940492120}
     - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
       propertyPath: unitPrefab
       value: 
@@ -2318,6 +2340,10 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 1288663032}
+    - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
+      propertyPath: surface
+      value: 
+      objectReference: {fileID: 1940492120}
     - target: {fileID: 175619331072538434, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
       propertyPath: unitPrefab
       value: 

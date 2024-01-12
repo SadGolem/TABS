@@ -1,10 +1,13 @@
-
+п»ї
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemySpawn : MonoBehaviour
 {
-    public GameObject[] enemyUnitPrefabs; // Массив префабов вражеских юнитов
+    public GameObject[] enemyUnitPrefabs; // РњР°СЃСЃРёРІ РїСЂРµС„Р°Р±РѕРІ РІСЂР°Р¶РµСЃРєРёС… СЋРЅРёС‚РѕРІ
+    public Terrain terrain;
+    public float offset = 5f;
 
     public static EnemySpawn Instance;
     private void Awake()
@@ -19,23 +22,23 @@ public class EnemySpawn : MonoBehaviour
             int randomIndex = Random.Range(0, enemyUnitPrefabs.Length);
             GameObject randomEnemyUnitPrefab = enemyUnitPrefabs[randomIndex];
 
-            NavMeshHit hit;
-            Vector3 randomPoint;
 
-            // Генерируем рандомную точку на навмеше для спавна юнита
-            do
-            {
-                randomPoint = new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f)); // Рандомная точка в заданных пределах
-            } while (!NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)); // Проверка, что точка доступна для спавна
+            // Р“РµРЅРµСЂРёСЂСѓРµРј СЂР°РЅРґРѕРјРЅСѓСЋ С‚РѕС‡РєСѓ РЅР° РЅР°РІРјРµС€Рµ РґР»СЏ СЃРїР°РІРЅР° СЋРЅРёС‚Р°
+            float x = Random.Range(terrain.terrainData.size.x / 2 - terrain.terrainData.size.x / 16, terrain.terrainData.size.x / 2 + terrain.terrainData.size.x / 16);
+            float z = Random.Range(terrain.terrainData.size.z / 2 + terrain.terrainData.size.z / 4, terrain.terrainData.size.z - terrain.terrainData.size.z / 16);
+            float y = terrain.SampleHeight(new Vector3(x, 0, z)) + terrain.transform.position.y + offset;
 
-            // Создаем экземпляр вражеского юнита на найденной точке на навмеше
-            var prefab = Instantiate(randomEnemyUnitPrefab, hit.position, Quaternion.identity);
-            UnitManager.instance.RegisterUnit(prefab.GetComponent<Unit>());
-            Debug.Log("юнит врагов добавлен");
+            GameObject prefabToPlace = enemyUnitPrefabs[Random.Range(0, enemyUnitPrefabs.Length)];
+
+
+            GameObject newPrefab = Instantiate(prefabToPlace, new Vector3(x, y, z), Quaternion.identity);
+            newPrefab.transform.SetParent(this.transform); 
+            UnitManager.instance.RegisterUnit(newPrefab.GetComponent<Unit>());
+            Debug.Log("СЋРЅРёС‚ РІСЂР°РіРѕРІ РґРѕР±Р°РІР»РµРЅ");
         }
         else
         {
-            Debug.LogError("Массив префабов вражеских юнитов пуст или навигационная поверхность не установлена.");
+            Debug.LogError("РњР°СЃСЃРёРІ РїСЂРµС„Р°Р±РѕРІ РІСЂР°Р¶РµСЃРєРёС… СЋРЅРёС‚РѕРІ РїСѓСЃС‚ РёР»Рё РЅР°РІРёРіР°С†РёРѕРЅРЅР°СЏ РїРѕРІРµСЂС…РЅРѕСЃС‚СЊ РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°.");
         }
     }
 }

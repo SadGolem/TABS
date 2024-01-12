@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public GameObject prefabToSpawn; // Префаб для спавна
+    public NavMeshSurface surface;
 
     private GameObject currentSpawnInstance; // Ссылка на текущий экземпляр спауна
     private bool _isPlacing;
@@ -34,7 +36,7 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             if (plane.Raycast(ray, out distance))
             {
                 Vector3 point = ray.GetPoint(distance);
-                if (NavMesh.SamplePosition(point, out hit, 3.0f, NavMesh.AllAreas)) // Проверяем, что точка находится на NavMesh
+                if (NavMesh.SamplePosition(point, out hit, 3.0f, surface.defaultArea)) // Проверяем, что точка находится на NavMesh
                 {
                     currentSpawnInstance.transform.position = hit.position; // Размещаем экземпляр на позиции NavMesh
                     /* UnitManager.instance.AddFriendUnits2(prefabToSpawn.GetComponent<Unit>());*/
