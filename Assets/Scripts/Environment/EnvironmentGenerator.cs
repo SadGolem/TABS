@@ -3,19 +3,20 @@ using UnityEngine;
 
 public class EnvironmentGenerator : MonoBehaviour
 {
-    public GameObject treePrefab;
+    /*public GameObject treePrefab;
     public GameObject bushPrefab;
     public GameObject rockPrefab;
     public int numberOfTrees;
     public int numberOfBushes;
     public int numberOfRocks;
 
+    public static EnvironmentGenerator instance;
     void Awake()
     {
-        GenerateEnvironment();
+        instance = this;
     }
 
-    private void GenerateEnvironment()
+    public void GenerateEnvironment()
     {
         for (int i = 0; i < numberOfTrees; i++)
         {
@@ -61,6 +62,6 @@ public class EnvironmentGenerator : MonoBehaviour
         }
 
         return randomPos;
-    }
+    }*/
 
 }
