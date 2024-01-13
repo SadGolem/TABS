@@ -67,9 +67,12 @@ public class MageUnit : Unit
 
     public override void Attack(Transform target, Transform attackUnit)
     {
-        state = State.Attack;
+        if (target != null)
+        {
+            state = State.Attack;
 
-        StartCoroutine(ShootProjectile(target, 5f)); // «апускаем корутину дл€ создани€ снар€дов с заданным интервалом
+            StartCoroutine(ShootProjectile(target, 5f)); // «апускаем корутину дл€ создани€ снар€дов с заданным интервалом
+        }
     }
 /*
     // Ћогика дл€ атаки по области

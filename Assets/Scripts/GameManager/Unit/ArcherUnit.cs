@@ -6,7 +6,7 @@ public class ArcherUnit : Unit
 {
     [SerializeField] private GameObject projectilePrefab;
     private bool canShoot = true; // ‘лаг, который указывает, можно ли производить выстрел
-    public float shootDelay = 2.0f; // ѕромежуток между выстрелами
+    public float shootDelay = 1.0f; // ѕромежуток между выстрелами
     protected ArcherUnit()
     {
         health = 15;
@@ -39,11 +39,13 @@ public class ArcherUnit : Unit
             float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
             if (distanceToTarget <= attackRange)
             {
+                Debug.Log(this + "стрел€ет");
                 state = State.Attack;
                 Attack(currentTarget, this.transform);
             }
             else
             {
+                Debug.Log(this + "идет");
                 state = State.WalkToPoint;
                 Move(currentTarget.position);
             }

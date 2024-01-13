@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpearmanUnit : Unit
 {
     // Добавим уникальные параметры для пехоты
-    [SerializeField] private float delayBeforeAttack = 2f;
+    [SerializeField] private float delayBeforeAttack = 0.5f;
 
     protected SpearmanUnit()
     {
@@ -59,20 +59,24 @@ public class SpearmanUnit : Unit
         yield return new WaitForSeconds(delayBeforeAttack); // Ждем заданное количество времени
 
         // Логика атаки врага, когда конница достигает нужной дистанции
-        if (Vector3.Distance(attackUnit.position, target.position) <= attackRange)
+        if (target != null)
         {
-            Debug.Log(Vector3.Distance(transform.position, target.position));
-            Unit targetUnit = target.GetComponent<Unit>();
-            state = State.Attack;
-            if (targetUnit is MageUnit) // Слабее против Магов
+            if (Vector3.Distance(attackUnit.position, target.position) <= attackRange)
             {
-                this.TakeDamage(targetUnit, damage / 2); // Наносим половинный урон
-            }
-            else
-            {
-                this.TakeDamage(targetUnit, damage); // Стандартный урон
+                Debug.Log(Vector3.Distance(transform.position, target.position));
+                Unit targetUnit = target.GetComponent<Unit>();
+                state = State.Attack;
+                if (targetUnit is MageUnit) // Слабее против Магов
+                {
+                    this.TakeDamage(targetUnit, damage / 2); // Наносим половинный урон
+                }
+                else
+                {
+                    this.TakeDamage(targetUnit, damage); // Стандартный урон
+                }
             }
         }
+
     }
 
 }

@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
     private Vector3 targetPosition;
     public bool isDoletelo = false;
     private Unit owner;
+    private Collision ownerCol;
     private Unit target;
     public int areaDamage;
 
@@ -41,7 +42,8 @@ public class Projectile : MonoBehaviour
         }
 
         // Независимо от результата, после столкновения уничтожаем снаряд.
-        Destroy(gameObject);
+       /* if (collision != owner.Coll)
+        Destroy(gameObject);*/
     }
 
 }

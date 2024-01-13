@@ -68,12 +68,16 @@ public class HealerUnit : Unit
 
     private IEnumerator HealWithDelay(Transform target)
     {
-        yield return new WaitForSeconds(delayBeforeHeal); // Ждем заданное количество времени
 
-        Unit fr = target.GetComponent<Unit>();
-        if (fr.health < fr.maxHP)
+        if (target != null)
         {
-            fr.health += heal;
+            yield return new WaitForSeconds(delayBeforeHeal); // Ждем заданное количество времени
+
+            Unit fr = target.GetComponent<Unit>();
+            if (fr.health < fr.maxHP)
+            {
+                fr.health += heal;
+            }
         }
     }
 

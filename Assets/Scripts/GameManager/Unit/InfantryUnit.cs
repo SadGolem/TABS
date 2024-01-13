@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InfantryUnit : Unit
 {
-    [SerializeField] private float delayBeforeAttack = 2f;
+    [SerializeField] private float delayBeforeAttack = 0.5f;
     // Добавим уникальные параметры для пехоты
 
     protected InfantryUnit()
@@ -50,11 +50,15 @@ public class InfantryUnit : Unit
 
     private IEnumerator PerformDelayedAttack(Transform target)
     {
-        yield return new WaitForSeconds(delayBeforeAttack); // Ждем заданное количество времени
+        yield return new WaitForSeconds(delayBeforeAttack);
+        if (target != null)
+        {
+             // Ждем заданное количество времени
 
-        Unit unit = target.GetComponent<Unit>();
-        state = State.Attack;
-        this.TakeDamage(unit, damage); // Наносим урон цели
+            Unit unit = target.GetComponent<Unit>();
+            state = State.Attack;
+            this.TakeDamage(unit, damage); // Наносим урон цели
+        }
     }
 
     public override void Move(Vector3 newPosition)

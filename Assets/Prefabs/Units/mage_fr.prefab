@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 291287296002824121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.98, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3318418377738600406}
@@ -171,7 +171,6 @@ MonoBehaviour:
   damage: 5
   areaDamage: 5
   projectilePrefab: {fileID: 2686370681878500615, guid: 96afd7c54c00118499821ca91cf0d96e, type: 3}
-  delayBeforeAttack: 2
 --- !u!1 &676485320843241938
 GameObject:
   m_ObjectHideFlags: 0

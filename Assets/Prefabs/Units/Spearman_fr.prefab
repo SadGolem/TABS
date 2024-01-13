@@ -299,7 +299,7 @@ Transform:
   m_GameObject: {fileID: 3533435873458000681}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.98, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1949766833926028102}
@@ -422,10 +422,10 @@ MonoBehaviour:
   collider: {fileID: 5748104454426327103}
   state: 0
   team: 1
-  followDistance: 3
-  attackDistance: 3
+  followDistance: 7
+  attackDistance: 7
   moveSpeed: 4
-  attackRange: 2
+  attackRange: 7
   maxHP: 0
   walkSpeed: 3
   currentTarget: {fileID: 0}

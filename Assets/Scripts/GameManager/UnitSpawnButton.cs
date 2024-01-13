@@ -1,4 +1,5 @@
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -36,7 +37,7 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             if (plane.Raycast(ray, out distance))
             {
                 Vector3 point = ray.GetPoint(distance);
-                if (NavMesh.SamplePosition(point, out hit, 3.0f, surface.defaultArea)) // Проверяем, что точка находится на NavMesh
+                if (NavMesh.SamplePosition(point, out hit, 10.0f, NavMesh.AllAreas)) // Проверяем, что точка находится на NavMesh
                 {
                     currentSpawnInstance.transform.position = hit.position; // Размещаем экземпляр на позиции NavMesh
                     /* UnitManager.instance.AddFriendUnits2(prefabToSpawn.GetComponent<Unit>());*/
@@ -86,7 +87,12 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 if (plane.Raycast(ray, out distance))
                 {
                     Vector3 point = ray.GetPoint(distance);
-                    currentSpawnInstance.transform.position = point; // Перемещаем экземпляр в позицию мыши
+
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(point, out hit, 15.0f, NavMesh.AllAreas))
+                    {
+                        currentSpawnInstance.transform.position = hit.position; // Перемещаем экземпляр в позицию точки на навигационной сетке
+                    }
                 }
             }
         }
@@ -95,7 +101,7 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void MoveSpawnInstanceToMousePosition()
     {
         Vector3 spawnPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-        spawnPosition.z = 0; // Указываем плоскость, на которой будет размещен объект
+        spawnPosition.z = 0;// Указываем плоскость, на которой будет размещен объект
         currentSpawnInstance.transform.position = spawnPosition; // Перемещаем экземпляр в позицию мыши
     }
 }

@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 164268025925054956}
   - component: {fileID: 2370833439775461902}
   - component: {fileID: 1679292233151762253}
-  - component: {fileID: 2370833439775461903}
+  - component: {fileID: 7315631059818643527}
   m_Layer: 0
   m_Name: infantry
   m_TagString: FriendlyUnit
@@ -445,7 +445,7 @@ Transform:
   m_GameObject: {fileID: 7351056887144254919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1143268722290909958}
@@ -550,9 +550,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthFill: {fileID: 6232649338695909639}
-  unit: {fileID: 2370833439775461903}
+  unit: {fileID: 7315631059818643527}
   maxHealth: 100
---- !u!114 &2370833439775461903
+--- !u!114 &7315631059818643527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -561,17 +561,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7351056887144254919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 963aefc37add1864393b57e319d0c351, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b627f2cb67a80940a20da3f0a4849a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2370833439775461902}
   collider: {fileID: 164268025925054956}
   state: 0
   team: 0
-  followDistance: 1
-  attackDistance: 1
-  moveSpeed: 3
-  attackRange: 1
+  followDistance: 5
+  attackDistance: 3
+  moveSpeed: 4
+  attackRange: 5
   maxHP: 0
   walkSpeed: 3
   currentTarget: {fileID: 0}
@@ -583,7 +583,7 @@ MonoBehaviour:
       m_Calls: []
   health: 100
   damage: 1
-  acceleration: 1
+  delayBeforeAttack: 2
 --- !u!1 &7991242077200243496
 GameObject:
   m_ObjectHideFlags: 0
