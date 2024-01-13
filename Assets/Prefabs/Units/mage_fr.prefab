@@ -154,10 +154,10 @@ MonoBehaviour:
   collider: {fileID: 8846982817551809711}
   state: 0
   team: 1
-  followDistance: 40
-  attackDistance: 40
+  followDistance: 100
+  attackDistance: 100
   moveSpeed: 1
-  attackRange: 40
+  attackRange: 100
   maxHP: 0
   walkSpeed: 3
   currentTarget: {fileID: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   health: 40
-  damage: 5
+  damage: 10
   areaDamage: 5
   projectilePrefab: {fileID: 2686370681878500615, guid: 96afd7c54c00118499821ca91cf0d96e, type: 3}
 --- !u!1 &676485320843241938

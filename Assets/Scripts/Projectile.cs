@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
 
         if (unit != null && unit.team != owner.team)
         {
-            owner.TakeDamage(target, areaDamage);
+            owner.TakeDamage(unit, areaDamage);
         }
 
         // Независимо от результата, после столкновения уничтожаем снаряд.

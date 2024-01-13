@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 3904768316420723802}
   m_Layer: 0
   m_Name: healers
-  m_TagString: FriendlyUnit
+  m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

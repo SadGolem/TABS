@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 3838962830997872704}
   m_Layer: 0
   m_Name: archer
-  m_TagString: FriendlyUnit
+  m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

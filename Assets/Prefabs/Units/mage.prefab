@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 98482703493344689}
   m_Layer: 0
   m_Name: mage
-  m_TagString: FriendlyUnit
+  m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,10 +357,10 @@ MonoBehaviour:
   collider: {fileID: 2593121117235646034}
   state: 0
   team: 0
-  followDistance: 40
-  attackDistance: 40
+  followDistance: 100
+  attackDistance: 100
   moveSpeed: 1
-  attackRange: 40
+  attackRange: 100
   maxHP: 0
   walkSpeed: 3
   currentTarget: {fileID: 0}
@@ -371,7 +371,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   health: 40
-  damage: 5
+  damage: 10
   areaDamage: 5
   projectilePrefab: {fileID: 2686370681878500615, guid: 96afd7c54c00118499821ca91cf0d96e, type: 3}
 --- !u!1 &5718900105612780694

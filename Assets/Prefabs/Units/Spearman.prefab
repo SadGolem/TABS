@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 141910554152582540}
   m_Layer: 0
   m_Name: spearman
-  m_TagString: FriendlyUnit
+  m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

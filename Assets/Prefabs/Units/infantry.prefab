@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 7315631059818643527}
   m_Layer: 0
   m_Name: infantry
-  m_TagString: FriendlyUnit
+  m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

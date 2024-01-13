@@ -303,8 +303,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   health: 70
-  damage: 3
+  damage: 1
   acceleration: 1
+  confidenceThreshold: 0.6
+  rangeBattleField: 50
 --- !u!1 &3638255532677531012
 GameObject:
   m_ObjectHideFlags: 0

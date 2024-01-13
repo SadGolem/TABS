@@ -138,6 +138,10 @@ protected Transform FindBestTarget()
     {
     }
 
+    public virtual void GetBack(Transform target)
+    {
+    }
+
     public void CheckHealth()
     {
         if (this.health <= 0)

@@ -14,10 +14,10 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private bool _isPlacing;
     public Camera _camera;
     public NavMeshHit hit; // ƒл€ хранени€ результата попадани€ на NavMesh
-
+    public int MaxSpawnCount = 7;
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (UnitManager.instance.GetFriendUnits().Count == 7 || !GameManager.Instance.isNotLastTurn)
+        if (UnitManager.instance.GetFriendUnits().Count == MaxSpawnCount || !GameManager.Instance.isNotLastTurn)
         { return; }
         else
         {
@@ -103,6 +103,12 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         Vector3 spawnPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
         spawnPosition.z = 0;// ”казываем плоскость, на которой будет размещен объект
         currentSpawnInstance.transform.position = spawnPosition; // ѕеремещаем экземпл€р в позицию мыши
+    }
+
+
+    public void ChangeMaxSpawnCount()
+    {
+        MaxSpawnCount = 10;
     }
 }
 

@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (hod >= 7)
+        if (hod >= 10)
         {
             isNotLastTurn = false;
             GameEndResult(); }
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     // Метод для изменения хода между игроком и ботом
     public void EndTurn()
     {
-        if (hod < 8)
+        if (hod < 11)
         {
             isPlayerTurn = !isPlayerTurn; // Переключаем переменную между игроком и ботом
             if (!isPlayerTurn)
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     // Метод для реализации хода бота
     private void BotTurn()
     {
-        if (hod != 7)
+        if (hod < 7)
         {
             spawner.SpawnEnemyUnit();
             hod++;
