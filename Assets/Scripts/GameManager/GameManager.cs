@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button[] buttons;
     private bool isPlayerTurn = true; // Переменная для определения, чей сейчас ход
     private int hod = 0;
+    private int maxHod = 8;
     public bool isNotLastTurn = true;
 
     public static GameManager Instance;
@@ -21,12 +22,13 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        PlayerPrefs.SetInt("MaxSpawnCount", 7);
         RandomTurn();
         Time.timeScale = 1.0f;
     }
     public void GameEndResult()
     {
-        if (hod >= 7)
+        if (hod >= maxHod)
         {
             UnitManager unitManager = UnitManager.instance;
             Debug.Log("friends:" + unitManager.GetFriendUnits().Count);
@@ -48,7 +50,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (hod >= 10)
+        if (hod >= maxHod + 1)
         {
             isNotLastTurn = false;
             GameEndResult(); }
@@ -62,8 +64,13 @@ public class GameManager : MonoBehaviour
     // Метод для изменения хода между игроком и ботом
     public void EndTurn()
     {
-        if (hod < 11)
+        if (hod < maxHod + 1)
         {
+            if (hod >= 7)
+            {
+                isPlayerTurn = true;
+                hod++;
+            }
             isPlayerTurn = !isPlayerTurn; // Переключаем переменную между игроком и ботом
             if (!isPlayerTurn)
             {
@@ -86,11 +93,14 @@ public class GameManager : MonoBehaviour
     // Метод для реализации хода бота
     private void BotTurn()
     {
+        
         if (hod < 7)
         {
-            spawner.SpawnEnemyUnit();
             hod++;
-            EndTurn(); // Это может вызвать ход игрока
+            EndTurn();
+            spawner.SpawnEnemyUnit();
+            
+             // Это может вызвать ход игрока
         }
     }
 
@@ -115,7 +125,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnUI()
+    public void OnUI()
     {
         blockWindow.SetActive(false);
         foreach (Button btn in buttons)
@@ -123,5 +133,17 @@ public class GameManager : MonoBehaviour
             btn.interactable = true;
             
         }
+    }
+
+    public void GetPlusThreeUnits()
+    {
+        foreach (Button btn in buttons)
+        {
+            btn.interactable = true;
+
+        }
+        blockWindow.SetActive(false);
+        maxHod = 10;
+        isNotLastTurn = true;
     }
 }

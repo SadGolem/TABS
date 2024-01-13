@@ -14,9 +14,14 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private bool _isPlacing;
     public Camera _camera;
     public NavMeshHit hit; // Для хранения результата попадания на NavMesh
-    public int MaxSpawnCount = 7;
+    private int MaxSpawnCount = 7;
+
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (PlayerPrefs.HasKey("MaxSpawnCount"))
+        {
+            MaxSpawnCount = PlayerPrefs.GetInt("MaxSpawnCount");
+        }
         if (UnitManager.instance.GetFriendUnits().Count == MaxSpawnCount || !GameManager.Instance.isNotLastTurn)
         { return; }
         else
@@ -109,6 +114,8 @@ public class UnitSpawnButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void ChangeMaxSpawnCount()
     {
         MaxSpawnCount = 10;
+        PlayerPrefs.SetInt("MaxSpawnCount", MaxSpawnCount);
+        PlayerPrefs.Save(); // Сохраняем изменения
     }
 }
 

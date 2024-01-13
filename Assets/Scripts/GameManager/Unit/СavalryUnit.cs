@@ -262,21 +262,23 @@ public class СavalryUnit : Unit
     float CalculateSelfAdvantage(Transform target)
     {
         float selfAdvantage = 0.0f;
-
-        Unit unit  = target.transform.GetComponent<Unit>();
-
-        if (unit != null)
+        if (target != null)
         {
-            if (unit is HealerUnit)
-            {
-                selfAdvantage += 0.4f;
-            }
-            else if (unit is MageUnit)
-            { selfAdvantage += 0.4f; }
-            else if (unit is ArcherUnit) { selfAdvantage += 0.4f; }
-            else { selfAdvantage += 0.2f; }
+            Unit unit = target.transform.GetComponent<Unit>();
 
-            // Логика определения преимущества текущего юнита над основной целью
+            if (unit != null)
+            {
+                if (unit is HealerUnit)
+                {
+                    selfAdvantage += 0.4f;
+                }
+                else if (unit is MageUnit)
+                { selfAdvantage += 0.4f; }
+                else if (unit is ArcherUnit) { selfAdvantage += 0.4f; }
+                else { selfAdvantage += 0.2f; }
+
+                // Логика определения преимущества текущего юнита над основной целью
+            }
         }
         return selfAdvantage;
     }
