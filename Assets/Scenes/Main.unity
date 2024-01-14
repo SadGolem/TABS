@@ -363,7 +363,6 @@ MonoBehaviour:
   prefabToSpawn: {fileID: 0}
   surface: {fileID: 0}
   _camera: {fileID: 0}
-  MaxSpawnCount: 7
 --- !u!1 &298467979 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7515883052458593531, guid: 292d822fe6097a245a3208aae257a60f, type: 3}
@@ -1665,6 +1664,7 @@ GameObject:
   - component: {fileID: 1288663033}
   - component: {fileID: 1288663032}
   - component: {fileID: 1288663031}
+  - component: {fileID: 1288663034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1705,7 +1705,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 47.700558
+  field of view: 49.6
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1738,6 +1738,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1288663034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288663030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220efb59472f377478b6cbc145047aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1290207423
 GameObject:
   m_ObjectHideFlags: 0
