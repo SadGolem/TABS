@@ -25,8 +25,7 @@ public class EditTerrain : MonoBehaviour
         }
 
         terrainData.SetHeights(0, 0, resetHeights);
-        Invoke("BakeNavMesh", 1f);
-        /*EnvironmentGenerator.instance.GenerateEnvironment();*/
+        Invoke("BakeNavMesh", 0.1f);
     }
 
     void Start()

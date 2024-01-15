@@ -27,12 +27,19 @@ public class MageUnit : Unit
 
         if (currentTarget != null)
         {
+            if (getBackNOW)
+            {
+                state = State.WalkToPoint;
+                GetBack(currentTarget);
+                return;
+            }
             // Нападаем на врага, если он в пределах атаки
             float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
             if (distanceToTarget <= attackRange)
             {
                 state = State.Attack;
                 Attack(currentTarget, this.transform);
+                currentTarget = null;
             }
             else
             {
@@ -40,6 +47,7 @@ public class MageUnit : Unit
                 Move(currentTarget.position);
             }
         }
+        GetBack(currentTarget);
     }
 
     private bool canShoot = true; // Флаг для отслеживания возможности стрельбы

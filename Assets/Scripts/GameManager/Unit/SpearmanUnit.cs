@@ -26,12 +26,19 @@ public class SpearmanUnit : Unit
 
         if (currentTarget != null)
         {
+            if (getBackNOW)
+            {
+                state = State.WalkToPoint;
+                GetBack(currentTarget);
+                return;
+            }
             // Ќападаем на врага, если он в пределах атаки
             float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
             if (distanceToTarget <= attackRange)
             {
                 state = State.Attack;
                 Attack(currentTarget, this.transform);
+                currentTarget = null;
             }
             else
             {
@@ -39,6 +46,7 @@ public class SpearmanUnit : Unit
                 Move(currentTarget.position);
             }
         }
+        GetBack(currentTarget);
     }
 
     public override void Move(Vector3 newPosition)

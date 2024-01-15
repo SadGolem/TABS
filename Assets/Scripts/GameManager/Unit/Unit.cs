@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,7 +24,6 @@ public class Unit : MonoBehaviour
 
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] protected new Collider collider;
-    Vector3 targetPoint;
     [SerializeField] protected State state;
     [SerializeField] public Team team;
 
@@ -43,17 +43,26 @@ public class Unit : MonoBehaviour
 
     public int health = 10;
     public int damage = 1;
-    protected bool isGetBackNOW = false;
+    private int distanceForCheckWarField = 200;
+    public bool IsNotGetBack { get { return _isNotGetBack; } set { _isNotGetBack = value; } }
+    protected bool _isNotGetBack =false;
+    protected bool getBackNOW = false;
 
+    public static Unit instance;
     private void Start()
     {
+        instance = this;
         agent.speed = moveSpeed;
         maxHP = health;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         CheckHealth();
+        if (_isNotGetBack)
+        {
+            getBackNOW = false;
+        }
     }
 
     public virtual void Move(Vector3 newPosition)
@@ -61,7 +70,6 @@ public class Unit : MonoBehaviour
         if (this.state == State.WalkToPoint)
         {
             agent.SetDestination(newPosition);
-/*            state = State.WalkToPoint;*/
         }
     }
 
@@ -119,6 +127,7 @@ protected Transform FindBestTarget()
             }
             Debug.Log(bestTarget);
             currentTarget = bestTarget;
+            GetBack(bestTarget);
             return bestTarget;
         }
         else
@@ -127,6 +136,7 @@ protected Transform FindBestTarget()
             GameManager.Instance.GameEndResult();
             return null;
         }
+        
     }
 
     protected int GiveDamage()
@@ -140,37 +150,63 @@ protected Transform FindBestTarget()
 
     public virtual void GetBack(Transform target)
     {
-        List<Unit> enemies = UnitManager.instance.GetEnemyUnits();
-        List<Unit> friends = UnitManager.instance.GetFriendUnits();
-
-        // —читаем количество врагов и союзников в определенном радиусе
-        int enemyCount = 0;
-        int friendCount = 0;
-
-        foreach (Unit unit in enemies)
+        if (target != null && !_isNotGetBack)
         {
-            float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
-            if (distanceToUnit < followDistance)
-            {
-                enemyCount++;
+            List<Unit> enemies = UnitManager.instance.GetEnemyUnits();
+            List<Unit> friends = UnitManager.instance.GetFriendUnits();
+            // —читаем количество врагов и союзников в определенном радиусе
+            int enemyCount = 0;
+            int friendCount = 0;
+            if (this.team == Team.Enemy)
+            { 
+                foreach (Unit unit in enemies)
+                {
+                    float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
+                    if (unit.team == this.team && distanceToUnit < distanceForCheckWarField)
+                    {
+                        friendCount++;
+                    }
+                }
+
+                foreach (Unit unit in friends)
+                {
+                    float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
+                    if (unit.team != this.team && distanceToUnit < distanceForCheckWarField)
+                    {                      
+                        enemyCount++;
+                    }
+                }
             }
-        }
-
-        foreach (Unit unit in friends)
-        {
-            float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
-            if (distanceToUnit < followDistance)
+            else
             {
-                friendCount++;
-            }
-        }
+                foreach (Unit unit in friends)
+                {
+                    float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
+                    if (unit.team == this.team && distanceToUnit < distanceForCheckWarField)
+                    {
+                        friendCount++;
+                    }
+                }
 
-        // ≈сли больше врагов, чем союзников в радиусе Ц отступаем в противоположную сторону от врагов
-        if (enemyCount > friendCount)
-        {
-            Vector3 retreatDirection = CalculateRetreatDirection(enemies);
-            Vector3 safePosition = transform.position + retreatDirection;
-            Move(safePosition); // ќтступаем к безопасной позиции
+                foreach (Unit unit in enemies)
+                {
+                    float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
+                    if (unit.team != this.team && distanceToUnit < distanceForCheckWarField)
+                    {
+                        enemyCount++;
+                    }
+                }
+            }
+            // ≈сли больше врагов, чем союзников в радиусе Ц отступаем в противоположную сторону от врагов
+            if (enemyCount > friendCount)
+            {
+                getBackNOW = true;
+                Vector3 retreatDirection = CalculateRetreatDirection(enemies);
+                Vector3 safePosition = transform.position + retreatDirection;
+                Move(safePosition); // ќтступаем к безопасной позиции
+            }
+            else
+                getBackNOW = false;
         }
     }
 

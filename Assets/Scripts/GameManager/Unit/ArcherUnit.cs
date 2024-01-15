@@ -34,21 +34,27 @@ public class ArcherUnit : Unit
 
         if (currentTarget != null)
         {
+            if (getBackNOW)
+            {
+                state = State.WalkToPoint;
+                GetBack(currentTarget);
+                return;
+            }
             // Нападаем на врага, если он в пределах атаки
             float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
             if (distanceToTarget <= attackRange)
             {
-                Debug.Log(this + "стреляет");
                 state = State.Attack;
                 Attack(currentTarget, this.transform);
+                currentTarget = null;
             }
             else
             {
-                Debug.Log(this + "идет");
                 state = State.WalkToPoint;
                 Move(currentTarget.position);
             }
         }
+        GetBack(currentTarget);
     }
 
     public override void Attack(Transform target, Transform attackUnit)
