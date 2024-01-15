@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (hod >= maxHod + 1)
+        if (hod > maxHod)
         {
             isNotLastTurn = false;
             GameEndResult(); }
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     // Метод для изменения хода между игроком и ботом
     public void EndTurn()
     {
-        if (hod < maxHod + 1)
+        if (hod < maxHod)
         {
             if (hod >= 7)
             {
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
             if (!isPlayerTurn)
             {
                 // Ход бота
-                OffUI();
+               /* OffUI();*/
                 BotTurn();
                
             }

@@ -43,7 +43,7 @@ public class Unit : MonoBehaviour
 
     public int health = 10;
     public int damage = 1;
-
+    protected bool isGetBackNOW = false;
 
     private void Start()
     {
@@ -140,6 +140,50 @@ protected Transform FindBestTarget()
 
     public virtual void GetBack(Transform target)
     {
+        List<Unit> enemies = UnitManager.instance.GetEnemyUnits();
+        List<Unit> friends = UnitManager.instance.GetFriendUnits();
+
+        // Считаем количество врагов и союзников в определенном радиусе
+        int enemyCount = 0;
+        int friendCount = 0;
+
+        foreach (Unit unit in enemies)
+        {
+            float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
+            if (distanceToUnit < followDistance)
+            {
+                enemyCount++;
+            }
+        }
+
+        foreach (Unit unit in friends)
+        {
+            float distanceToUnit = Vector3.Distance(this.transform.position, unit.transform.position);
+            if (distanceToUnit < followDistance)
+            {
+                friendCount++;
+            }
+        }
+
+        // Если больше врагов, чем союзников в радиусе – отступаем в противоположную сторону от врагов
+        if (enemyCount > friendCount)
+        {
+            Vector3 retreatDirection = CalculateRetreatDirection(enemies);
+            Vector3 safePosition = transform.position + retreatDirection;
+            Move(safePosition); // Отступаем к безопасной позиции
+        }
+    }
+
+    private Vector3 CalculateRetreatDirection(List<Unit> enemies)
+    {
+        Vector3 retreatVector = Vector3.zero;
+        foreach (Unit enemy in enemies)
+        {
+            retreatVector += (transform.position - enemy.transform.position).normalized;
+        }
+        retreatVector /= enemies.Count; // Усредняем векторы отступления
+
+        return retreatVector.normalized;
     }
 
     public void CheckHealth()
